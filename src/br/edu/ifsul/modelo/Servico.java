@@ -1,4 +1,3 @@
-
 package br.edu.ifsul.modelo;
 
 import java.io.Serializable;
@@ -21,69 +20,51 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-
 @Entity
 @Table(name = "servico")
 public class Servico implements Serializable {
+
     @Id
-    @SequenceGenerator(name = "seq_servico", sequenceName = "seq_servico_id", 
+    @SequenceGenerator(name = "seq_servico", sequenceName = "seq_servico_id",
             allocationSize = 1)
     @GeneratedValue(generator = "seq_servico", strategy = GenerationType.SEQUENCE)
     private Integer id;
-    
+
     @NotBlank(message = "O nome deve ser informado")
     @Length(max = 50, message = "O nome deve ter até {max} caracteres")
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
-   
+
     @NotBlank(message = "O tipo deve ser informado")
     @Length(max = 50, message = "O tipo deve ter até {max} caracteres")
     @Column(name = "tipo", nullable = false, length = 50)
     private String tipo;
-    
+
     @NotNull(message = "O valor total deve ser informado")
-    @Column(name = "valor_servico", nullable = false, 
+    @Column(name = "valor_servico", nullable = false,
             columnDefinition = "numeric(12,2)")
     private Double valorServico;
-    
+
     @NotNull(message = "O usuario deve ser informado")
     @ManyToOne
     @JoinColumn(name = "usuario", referencedColumnName = "id", nullable = true)
     private Usuario usuario;
-    
-    
-    
+
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL,
             orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ServicoInsumo> itens = new ArrayList<>();
-    // o valor em mappedBy refere-se ao atributo 
-    // da classe parcela que faz referencia a classe servico
-    // no caso ele se encontra dentro do atributo parcelaID
-    
-/*    @ManyToMany
-        @JoinTable(name = "desejos",
-            joinColumns = 
-            @JoinColumn(name = "servico", referencedColumnName = "id", 
-                    nullable = false), 
-            inverseJoinColumns = 
-            @JoinColumn(name = "pessoa_fisica", referencedColumnName = "id", 
-                    nullable = false))
-    private List<PessoaFisica> desejam = new ArrayList<>();
-    
-    */
-    public Servico(){
+
+    public Servico() {
         this.valorServico = 0.0;
     }
-    
-    
-    
-    public void adicionarItem(ServicoInsumo obj){
+
+    public void adicionarItem(ServicoInsumo obj) {
         obj.setServico(this);// seto a servico do objeto servicoInsumo
         this.valorServico += obj.getValorTotal(); // atualizo o valor
         this.itens.add(obj); // adiciono o item no servico
     }
-    
-    public void removerItem(int index){
+
+    public void removerItem(int index) {
         ServicoInsumo obj = this.itens.get(index);
         this.valorServico -= obj.getValorTotal();
         this.itens.remove(obj);
@@ -97,7 +78,7 @@ public class Servico implements Serializable {
         this.id = id;
     }
 
-     public String getNome() {
+    public String getNome() {
         return nome;
     }
 
@@ -112,8 +93,8 @@ public class Servico implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
-      public Double getValorServico() {
+
+    public Double getValorServico() {
         return valorServico;
     }
 
@@ -128,7 +109,6 @@ public class Servico implements Serializable {
     public void setItens(List<ServicoInsumo> itens) {
         this.itens = itens;
     }
-     
 
     public Usuario getUsuario() {
         return usuario;
@@ -137,8 +117,6 @@ public class Servico implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
-  
 
     @Override
     public int hashCode() {
@@ -165,14 +143,9 @@ public class Servico implements Serializable {
         return true;
     }
 
-   
-   @Override
+    @Override
     public String toString() {
         return nome;
     }
 
-  
-
-       
-    
 }
