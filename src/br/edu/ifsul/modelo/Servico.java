@@ -51,7 +51,7 @@ public class Servico implements Serializable {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.EAGER)
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ServicoInsumo> itens = new ArrayList<>();
 
     public Servico() {

@@ -67,7 +67,7 @@ public class Orcamento implements Serializable {
     private PessoaFisica pessoaFisica;
     
     @OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.EAGER)
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrcamentoItem> itens = new ArrayList<>();
     
 
